@@ -58,13 +58,13 @@ export default function ItemsList({
       ))}
 
       {items.length === 0 && (
-        <p className="text-sm text-gray-400">No items yet.</p>
+        <p className="text-sm text-shell-muted/40">No items yet.</p>
       )}
 
       <button
         onClick={handleAdd}
         disabled={adding}
-        className="rounded border border-gray-300 px-3 py-1.5 text-sm font-medium disabled:opacity-50"
+        className="rounded border border-shell-muted/25 px-3 py-1.5 text-sm font-medium text-shell-muted disabled:opacity-50"
       >
         {adding ? "Adding..." : "+ Add item"}
       </button>

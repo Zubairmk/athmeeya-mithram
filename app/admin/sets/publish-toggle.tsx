@@ -28,10 +28,10 @@ export default function PublishToggle({
     <button
       onClick={toggle}
       disabled={pending}
-      className={`rounded px-2 py-1 text-xs font-medium ${
+      className={`rounded-full border px-2.5 py-1 text-xs font-medium ${
         isPublished
-          ? "bg-green-100 text-green-800"
-          : "bg-gray-100 text-gray-600"
+          ? "border-gold text-gold"
+          : "border-shell-muted/25 text-shell-muted/60"
       } disabled:opacity-50`}
     >
       {isPublished ? "Published" : "Draft"}

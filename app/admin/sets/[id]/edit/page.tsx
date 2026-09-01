@@ -28,19 +28,23 @@ export default async function EditSetPage({
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-8">
-      <Link href="/admin/sets" className="text-sm text-gray-500">
-        &larr; All sets
-      </Link>
+    <main className="min-h-screen bg-shell">
+      <div className="mx-auto max-w-3xl p-8">
+        <Link href="/admin/sets" className="text-sm text-shell-muted/60">
+          &larr; All sets
+        </Link>
 
-      <h1 className="mb-6 mt-2 text-xl font-semibold">{set.title_ml}</h1>
+        <h1 className="mb-6 mt-2 text-lg font-semibold text-shell-muted">
+          {set.title_ml}
+        </h1>
 
-      <SetMetaForm set={set} categories={categories ?? []} />
+        <SetMetaForm set={set} categories={categories ?? []} />
 
-      <h2 className="mb-3 mt-10 text-sm font-semibold text-gray-500">
-        Items
-      </h2>
-      <ItemsList setId={id} initialItems={items ?? []} />
+        <h2 className="mb-3 mt-10 text-sm font-semibold text-shell-muted/70">
+          Items
+        </h2>
+        <ItemsList setId={id} initialItems={items ?? []} />
+      </div>
     </main>
   );
 }

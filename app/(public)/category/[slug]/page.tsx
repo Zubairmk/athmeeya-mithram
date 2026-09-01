@@ -1,6 +1,23 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data: category } = await supabase
+    .from("categories")
+    .select("name_ml")
+    .eq("slug", slug)
+    .single();
+
+  return { title: category ? `${category.name_ml} — ആത്മീയമിത്രം` : "ആത്മീയമിത്രം" };
+}
 
 export default async function CategoryPage({
   params,

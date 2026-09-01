@@ -127,22 +127,22 @@ export default function ItemEditor({
   }
 
   return (
-    <div className="space-y-3 rounded border border-gray-200 p-4">
+    <div className="space-y-3 rounded border border-shell-muted/20 p-4">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-gray-400">
+        <span className="text-xs font-medium text-shell-muted/50">
           Item #{index + 1}
         </span>
         <button
           onClick={handleDelete}
           disabled={deleting}
-          className="text-xs text-red-600 disabled:opacity-50"
+          className="text-xs text-red-400 disabled:opacity-50"
         >
           {deleting ? "Deleting..." : "Delete"}
         </button>
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <label className="cursor-pointer rounded border border-gray-300 px-3 py-1.5 text-xs font-medium">
+        <label className="cursor-pointer rounded border border-shell-muted/25 px-3 py-1.5 text-xs font-medium text-shell-muted">
           {extracting ? "Extracting..." : "Upload PDF & extract"}
           <input
             ref={pdfInputRef}
@@ -154,12 +154,12 @@ export default function ItemEditor({
           />
         </label>
         {sourcePdfUrl && (
-          <span className="self-center text-xs text-gray-400">
+          <span className="self-center text-xs text-shell-muted/40">
             PDF attached
           </span>
         )}
 
-        <label className="cursor-pointer rounded border border-gray-300 px-3 py-1.5 text-xs font-medium">
+        <label className="cursor-pointer rounded border border-shell-muted/25 px-3 py-1.5 text-xs font-medium text-shell-muted">
           {uploadingAudio ? "Uploading..." : "Upload audio"}
           <input
             ref={audioInputRef}
@@ -176,7 +176,7 @@ export default function ItemEditor({
       </div>
 
       <div className="space-y-1">
-        <label className="block text-xs font-medium text-gray-500">
+        <label className="block text-xs font-medium text-shell-muted/60">
           Arabic text
         </label>
         <textarea
@@ -184,34 +184,34 @@ export default function ItemEditor({
           value={arabicText}
           onChange={(e) => setArabicText(e.target.value)}
           rows={3}
-          className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+          className="w-full rounded border border-shell-muted/25 bg-transparent px-2 py-1.5 font-amiri text-lg text-shell-muted outline-none focus:border-gold"
         />
       </div>
 
       <div className="space-y-1">
-        <label className="block text-xs font-medium text-gray-500">
+        <label className="block text-xs font-medium text-shell-muted/60">
           Malayalam note
         </label>
         <textarea
           value={malayalamNote}
           onChange={(e) => setMalayalamNote(e.target.value)}
           rows={2}
-          className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+          className="w-full rounded border border-shell-muted/25 bg-transparent px-2 py-1.5 text-sm text-shell-muted outline-none focus:border-gold"
         />
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       <div className="flex items-center gap-3">
         <button
           onClick={handleSave}
           disabled={saving}
-          className="rounded bg-gray-900 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
+          className="rounded border border-gold px-3 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-shell disabled:opacity-50"
         >
           {saving ? "Saving..." : "Save item"}
         </button>
         {savedAt && !saving && (
-          <span className="text-xs text-gray-400">Saved</span>
+          <span className="text-xs text-shell-muted/50">Saved</span>
         )}
       </div>
     </div>

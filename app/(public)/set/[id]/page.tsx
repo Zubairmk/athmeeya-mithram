@@ -1,8 +1,25 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import SetReader from "./set-reader";
 import DailyMarkButton from "./daily-mark-button";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: set } = await supabase
+    .from("dhikr_sets")
+    .select("title_ml")
+    .eq("id", id)
+    .single();
+
+  return { title: set ? `${set.title_ml} — ആത്മീയമിത്രം` : "ആത്മീയമിത്രം" };
+}
 
 export default async function SetPage({
   params,

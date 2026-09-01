@@ -1,6 +1,18 @@
 import type { Metadata, Viewport } from "next";
+import { Amiri, Noto_Sans_Malayalam } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+
+const amiri = Amiri({
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  variable: "--font-amiri",
+});
+
+const notoMalayalam = Noto_Sans_Malayalam({
+  subsets: ["malayalam"],
+  variable: "--font-malayalam",
+});
 
 export const metadata: Metadata = {
   title: "ആത്മീയമിത്രം",
@@ -30,8 +42,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ml">
-      <body>
+    <html lang="ml" className={`${amiri.variable} ${notoMalayalam.variable}`}>
+      <body className="font-malayalam">
         {children}
         <ServiceWorkerRegister />
       </body>
