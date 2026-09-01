@@ -41,6 +41,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  try {
+    return await handleSend();
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: err instanceof Error ? err.message : String(err),
+        stack: err instanceof Error ? err.stack : null,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+async function handleSend() {
   const supabase = createAdminClient();
   const { data: subscriptions, error } = await supabase
     .from("push_subscriptions")
@@ -102,7 +116,8 @@ export async function POST(request: NextRequest) {
     if (statusCode === 404 || statusCode === 410) {
       toRemove.add(due[i].sub.endpoint);
     } else {
-      errors.push(err instanceof Error ? err.message : String(err));
+      const detail = err instanceof Error ? `${err.message}\n${err.stack}` : String(err);
+      errors.push(detail);
     }
   });
 
