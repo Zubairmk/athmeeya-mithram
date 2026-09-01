@@ -25,21 +25,27 @@ export default function SettingsPage() {
     setMessage(null);
     setPending(true);
 
-    if (!enabled) {
-      const ok = await subscribeToPush(morningTime, eveningTime);
-      if (ok) {
-        setEnabled(true);
-        updateSettings({ notificationsEnabled: true });
+    try {
+      if (!enabled) {
+        const ok = await subscribeToPush(morningTime, eveningTime);
+        if (ok) {
+          setEnabled(true);
+          updateSettings({ notificationsEnabled: true });
+        } else {
+          setMessage("അനുമതി ലഭിച്ചില്ല അല്ലെങ്കിൽ ഇത് ഈ ബ്രൗസറിൽ പിന്തുണയ്ക്കുന്നില്ല.");
+        }
       } else {
-        setMessage("അനുമതി ലഭിച്ചില്ല അല്ലെങ്കിൽ ഇത് ഈ ബ്രൗസറിൽ പിന്തുണയ്ക്കുന്നില്ല.");
+        await unsubscribeFromPush();
+        setEnabled(false);
+        updateSettings({ notificationsEnabled: false });
       }
-    } else {
-      await unsubscribeFromPush();
-      setEnabled(false);
-      updateSettings({ notificationsEnabled: false });
+    } catch (err) {
+      setMessage(
+        `പിശക്: ${err instanceof Error ? err.message : "എന്തോ പിഴച്ചു"}`,
+      );
+    } finally {
+      setPending(false);
     }
-
-    setPending(false);
   }
 
   async function handleTimeSave() {
@@ -48,11 +54,19 @@ export default function SettingsPage() {
       reminderMorningTime: morningTime,
       reminderEveningTime: eveningTime,
     });
-    if (enabled) {
-      await subscribeToPush(morningTime, eveningTime);
+
+    try {
+      if (enabled) {
+        await subscribeToPush(morningTime, eveningTime);
+      }
+      setMessage("സേവ് ചെയ്തു");
+    } catch (err) {
+      setMessage(
+        `പിശക്: ${err instanceof Error ? err.message : "എന്തോ പിഴച്ചു"}`,
+      );
+    } finally {
+      setPending(false);
     }
-    setPending(false);
-    setMessage("സേവ് ചെയ്തു");
   }
 
   return (

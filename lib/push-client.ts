@@ -32,11 +32,13 @@ export async function subscribeToPush(
   let subscription = await registration.pushManager.getSubscription();
 
   if (!subscription) {
+    const vapidKey = process.env.NEXT_PUBLIC_VAPID_KEY;
+    if (!vapidKey) {
+      throw new Error("VAPID key missing from build — check NEXT_PUBLIC_VAPID_KEY");
+    }
     subscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(
-        process.env.NEXT_PUBLIC_VAPID_KEY!,
-      ),
+      applicationServerKey: urlBase64ToUint8Array(vapidKey),
     });
   }
 
