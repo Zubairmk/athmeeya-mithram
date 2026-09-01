@@ -13,12 +13,11 @@ export default function ItemEditor({
   index: number;
   onDeleted: () => void;
 }) {
-  const [arabicText, setArabicText] = useState(item.arabic_text);
   const [malayalamNote, setMalayalamNote] = useState(item.malayalam_note ?? "");
   const [audioUrl, setAudioUrl] = useState(item.audio_url);
   const [sourcePdfUrl, setSourcePdfUrl] = useState(item.source_pdf_url);
 
-  const [extracting, setExtracting] = useState(false);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
   const [uploadingAudio, setUploadingAudio] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -32,7 +31,7 @@ export default function ItemEditor({
     const file = e.target.files?.[0];
     if (!file) return;
     setError(null);
-    setExtracting(true);
+    setUploadingPdf(true);
 
     try {
       const supabase = createClient();
@@ -42,27 +41,13 @@ export default function ItemEditor({
         .upload(path, file, { upsert: true });
 
       if (uploadError) throw uploadError;
-      setSourcePdfUrl(path);
 
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/admin/extract", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.error ?? "Extraction failed");
-      }
-
-      const result = await res.json();
-      setArabicText(result.arabic_text);
-      setMalayalamNote(result.malayalam_note);
+      const { data } = supabase.storage.from("source-pdfs").getPublicUrl(path);
+      setSourcePdfUrl(data.publicUrl);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(err instanceof Error ? err.message : "PDF upload failed");
     } finally {
-      setExtracting(false);
+      setUploadingPdf(false);
       if (pdfInputRef.current) pdfInputRef.current.value = "";
     }
   }
@@ -101,7 +86,6 @@ export default function ItemEditor({
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        arabic_text: arabicText,
         malayalam_note: malayalamNote || null,
         audio_url: audioUrl,
         source_pdf_url: sourcePdfUrl,
@@ -143,20 +127,25 @@ export default function ItemEditor({
 
       <div className="flex flex-wrap gap-3">
         <label className="cursor-pointer rounded border border-shell-muted/25 px-3 py-1.5 text-xs font-medium text-shell-muted">
-          {extracting ? "Extracting..." : "Upload PDF & extract"}
+          {uploadingPdf ? "Uploading..." : "Upload PDF"}
           <input
             ref={pdfInputRef}
             type="file"
             accept="application/pdf"
             onChange={handlePdfSelected}
-            disabled={extracting}
+            disabled={uploadingPdf}
             className="hidden"
           />
         </label>
         {sourcePdfUrl && (
-          <span className="self-center text-xs text-shell-muted/40">
-            PDF attached
-          </span>
+          <a
+            href={sourcePdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="self-center text-xs text-gold underline"
+          >
+            View PDF
+          </a>
         )}
 
         <label className="cursor-pointer rounded border border-shell-muted/25 px-3 py-1.5 text-xs font-medium text-shell-muted">
@@ -177,20 +166,7 @@ export default function ItemEditor({
 
       <div className="space-y-1">
         <label className="block text-xs font-medium text-shell-muted/60">
-          Arabic text
-        </label>
-        <textarea
-          dir="rtl"
-          value={arabicText}
-          onChange={(e) => setArabicText(e.target.value)}
-          rows={3}
-          className="w-full rounded border border-shell-muted/25 bg-transparent px-2 py-1.5 font-amiri text-lg text-shell-muted outline-none focus:border-gold"
-        />
-      </div>
-
-      <div className="space-y-1">
-        <label className="block text-xs font-medium text-shell-muted/60">
-          Malayalam note
+          Malayalam note (optional)
         </label>
         <textarea
           value={malayalamNote}

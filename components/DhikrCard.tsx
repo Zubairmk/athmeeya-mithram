@@ -1,11 +1,11 @@
 export default function DhikrCard({
-  arabicText,
+  sourcePdfUrl,
   malayalamNote,
   hasAudio,
   isActive,
   onPlay,
 }: {
-  arabicText: string;
+  sourcePdfUrl: string | null;
   malayalamNote: string | null;
   hasAudio: boolean;
   isActive: boolean;
@@ -27,12 +27,25 @@ export default function DhikrCard({
         </button>
       )}
 
-      <p
-        dir="rtl"
-        className="font-amiri text-3xl leading-loose text-ink sm:text-4xl"
-      >
-        {arabicText}
-      </p>
+      {sourcePdfUrl ? (
+        <div className="overflow-hidden rounded border border-ink/15">
+          <iframe
+            src={sourcePdfUrl}
+            title="Dhikr page"
+            className="h-[75vh] w-full"
+          />
+          <a
+            href={sourcePdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="block border-t border-ink/15 px-3 py-2 text-center text-xs text-ink-muted hover:text-ink"
+          >
+            പുതിയ ടാബിൽ തുറക്കുക
+          </a>
+        </div>
+      ) : (
+        <p className="text-sm text-ink-muted">ഉള്ളടക്കം ചേർത്തിട്ടില്ല.</p>
+      )}
 
       {malayalamNote && (
         <p className="mt-4 font-malayalam text-sm leading-relaxed text-ink-muted">

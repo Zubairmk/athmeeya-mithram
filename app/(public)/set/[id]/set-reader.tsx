@@ -6,7 +6,7 @@ import AudioPlayer from "@/components/AudioPlayer";
 
 type Item = {
   id: string;
-  arabic_text: string;
+  source_pdf_url: string | null;
   malayalam_note: string | null;
   audio_url: string | null;
 };
@@ -33,7 +33,7 @@ export default function SetReader({
         {items.map((item) => (
           <DhikrCard
             key={item.id}
-            arabicText={item.arabic_text}
+            sourcePdfUrl={item.source_pdf_url}
             malayalamNote={item.malayalam_note}
             hasAudio={!!item.audio_url}
             isActive={item.id === activeId}
