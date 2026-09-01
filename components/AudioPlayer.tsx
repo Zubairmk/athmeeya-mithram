@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getPlaybackSpeed, setPlaybackSpeed } from "@/lib/streak";
 
 const SPEEDS = [0.75, 1, 1.25, 1.5];
 
@@ -19,6 +20,10 @@ export default function AudioPlayer({
   const [speed, setSpeed] = useState(1);
 
   useEffect(() => {
+    setSpeed(getPlaybackSpeed());
+  }, []);
+
+  useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.play().catch(() => setIsPlaying(false));
@@ -27,6 +32,11 @@ export default function AudioPlayer({
   useEffect(() => {
     if (audioRef.current) audioRef.current.playbackRate = speed;
   }, [speed]);
+
+  function handleSpeedChange(value: number) {
+    setSpeed(value);
+    setPlaybackSpeed(value);
+  }
 
   function togglePlay() {
     const audio = audioRef.current;
@@ -93,7 +103,7 @@ export default function AudioPlayer({
 
         <select
           value={speed}
-          onChange={(e) => setSpeed(Number(e.target.value))}
+          onChange={(e) => handleSpeedChange(Number(e.target.value))}
           className="shrink-0 rounded border border-shell-muted/30 bg-transparent px-1 py-1 text-xs text-shell-muted"
         >
           {SPEEDS.map((s) => (

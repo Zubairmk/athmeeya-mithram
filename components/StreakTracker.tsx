@@ -36,10 +36,13 @@ export default function StreakTracker({
           href={eveningSet ? `/set/${eveningSet.id}` : null}
         />
       </div>
-      <p className="mt-4 text-center text-xs text-shell-muted">
+      <Link
+        href="/streak"
+        className="mt-4 block text-center text-xs text-shell-muted"
+      >
         <span className="font-semibold text-gold">{streak}</span> ദിവസം
         സ്ട്രീക്ക്
-      </p>
+      </Link>
     </div>
   );
 }

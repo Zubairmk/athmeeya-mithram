@@ -59,6 +59,30 @@ function saveState(state: StreakState) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+export function getPlaybackSpeed(): number {
+  return loadState().settings.playbackSpeed;
+}
+
+export function setPlaybackSpeed(speed: number) {
+  if (typeof window === "undefined") return;
+  const state = loadState();
+  state.settings.playbackSpeed = speed;
+  saveState(state);
+}
+
+export function getRecentDays(days: number) {
+  const state = loadState();
+  const result: { date: string; morning: boolean; evening: boolean }[] = [];
+  const cursor = new Date();
+  for (let i = 0; i < days; i++) {
+    const key = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}-${String(cursor.getDate()).padStart(2, "0")}`;
+    const day = state.completionLog[key] ?? { morning: false, evening: false };
+    result.push({ date: key, ...day });
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return result;
+}
+
 export function todayCompletion(state: StreakState) {
   return state.completionLog[todayKey()] ?? { morning: false, evening: false };
 }
