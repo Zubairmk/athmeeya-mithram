@@ -7,10 +7,12 @@ export const dynamic = "force-dynamic";
 
 function inspect(value: string | undefined) {
   if (value === undefined) return null;
+  const badChars = [...value]
+    .map((c, i) => ({ i, code: c.codePointAt(0)! }))
+    .filter((c) => c.code > 255);
   return {
-    value,
     length: value.length,
-    charCodes: [...value].map((c) => c.codePointAt(0)),
+    badChars, // any char code > 255 — the ByteString-breaking kind
   };
 }
 
@@ -18,8 +20,10 @@ export async function GET() {
   return NextResponse.json({
     VAPID_SUBJECT: inspect(process.env.VAPID_SUBJECT),
     NEXT_PUBLIC_VAPID_KEY: inspect(process.env.NEXT_PUBLIC_VAPID_KEY),
-    VAPID_PRIVATE_KEY_present: !!process.env.VAPID_PRIVATE_KEY,
-    VAPID_PRIVATE_KEY_length: process.env.VAPID_PRIVATE_KEY?.length ?? 0,
-    CRON_SECRET_present: !!process.env.CRON_SECRET,
+    VAPID_PRIVATE_KEY: inspect(process.env.VAPID_PRIVATE_KEY),
+    CRON_SECRET: inspect(process.env.CRON_SECRET),
+    SUPABASE_SERVICE_ROLE_KEY: inspect(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    ANTHROPIC_API_KEY: inspect(process.env.ANTHROPIC_API_KEY),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: inspect(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
   });
 }
