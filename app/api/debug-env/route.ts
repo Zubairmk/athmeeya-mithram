@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 // is resolved. Only echoes values that are already meant to be public
 // (NEXT_PUBLIC_* are shipped to the browser anyway); never add secret
 // keys here.
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   return NextResponse.json({
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ?? null,
