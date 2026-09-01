@@ -8,6 +8,7 @@ const ALLOWED_FIELDS = [
   "category_id",
   "is_published",
   "sort_order",
+  "daily_type",
 ] as const;
 
 export async function PATCH(

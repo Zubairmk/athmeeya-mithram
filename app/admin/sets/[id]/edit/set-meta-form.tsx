@@ -11,6 +11,7 @@ type Set = {
   title_ar: string | null;
   description_ml: string | null;
   is_published: boolean;
+  daily_type: "morning" | "evening" | null;
 };
 
 export default function SetMetaForm({
@@ -26,6 +27,7 @@ export default function SetMetaForm({
   const [descriptionMl, setDescriptionMl] = useState(set.description_ml ?? "");
   const [categoryId, setCategoryId] = useState(set.category_id);
   const [isPublished, setIsPublished] = useState(set.is_published);
+  const [dailyType, setDailyType] = useState(set.daily_type ?? "");
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<number | null>(null);
 
@@ -42,6 +44,7 @@ export default function SetMetaForm({
         description_ml: descriptionMl || null,
         category_id: categoryId,
         is_published: isPublished,
+        daily_type: dailyType || null,
       }),
     });
 
@@ -124,6 +127,21 @@ export default function SetMetaForm({
           />
           Published
         </label>
+
+        <div className="space-y-1">
+          <label className="block text-xs font-medium text-gray-500">
+            Daily tile
+          </label>
+          <select
+            value={dailyType}
+            onChange={(e) => setDailyType(e.target.value)}
+            className="rounded border border-gray-300 px-2 py-1.5 text-sm"
+          >
+            <option value="">Not a daily tile</option>
+            <option value="morning">Morning</option>
+            <option value="evening">Evening</option>
+          </select>
+        </div>
 
         <button
           type="submit"
