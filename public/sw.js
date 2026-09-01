@@ -1,3 +1,20 @@
+// Hand-written, minimal service worker. Deliberately does NOT precache any
+// assets — a previous Workbox-generated worker (via next-pwa) precached the
+// full static asset list on install, and on at least one real device that
+// install step failed and left the worker permanently "redundant" (never
+// activating), which silently broke push notifications with no visible
+// error. This worker only exists to enable push notifications; offline
+// asset caching is not implemented here and would need to be added back
+// deliberately and carefully if wanted later.
+
+self.addEventListener("install", () => {
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener("push", (event) => {
   let data = {};
   try {

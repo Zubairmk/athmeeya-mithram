@@ -17,12 +17,6 @@
 /.next/
 /out/
 
-# next-pwa generated service worker (rebuilt every build)
-/public/sw.js
-/public/workbox-*.js
-/public/fallback-*.js
-/public/worker-*.js
-
 # production
 /build
 
