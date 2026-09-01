@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 // issue in a push-related env var is found. Reports character codes so we
 // can find a corrupted value without relying on screenshot transcription.
 export const dynamic = "force-dynamic";
+// build marker: forcing a fresh build to test whether Redeploy was reusing
+// a stale build cache instead of re-reading current env vars
 
 function inspect(value: string | undefined) {
   if (value === undefined) return null;
