@@ -5,7 +5,12 @@ export type CompletionLog = Record<string, { morning: boolean; evening: boolean 
 export type StreakState = {
   streak: { current: number; longest: number; lastCompletedDate: string | null };
   completionLog: CompletionLog;
-  settings: { playbackSpeed: number; notificationsEnabled: boolean };
+  settings: {
+    playbackSpeed: number;
+    notificationsEnabled: boolean;
+    reminderMorningTime: string;
+    reminderEveningTime: string;
+  };
 };
 
 const STORAGE_KEY = "athmeeya-mithram";
@@ -13,7 +18,12 @@ const STORAGE_KEY = "athmeeya-mithram";
 const DEFAULT_STATE: StreakState = {
   streak: { current: 0, longest: 0, lastCompletedDate: null },
   completionLog: {},
-  settings: { playbackSpeed: 1, notificationsEnabled: false },
+  settings: {
+    playbackSpeed: 1,
+    notificationsEnabled: false,
+    reminderMorningTime: "05:30",
+    reminderEveningTime: "17:30",
+  },
 };
 
 export function todayKey(): string {
@@ -46,9 +56,12 @@ export function loadState(): StreakState {
   if (typeof window === "undefined") return DEFAULT_STATE;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    const state: StreakState = raw
-      ? { ...DEFAULT_STATE, ...JSON.parse(raw) }
-      : DEFAULT_STATE;
+    const parsed = raw ? JSON.parse(raw) : {};
+    const state: StreakState = {
+      ...DEFAULT_STATE,
+      ...parsed,
+      settings: { ...DEFAULT_STATE.settings, ...parsed.settings },
+    };
     return normalize(state);
   } catch {
     return DEFAULT_STATE;
@@ -61,6 +74,15 @@ function saveState(state: StreakState) {
 
 export function getPlaybackSpeed(): number {
   return loadState().settings.playbackSpeed;
+}
+
+export function updateSettings(
+  partial: Partial<StreakState["settings"]>,
+): StreakState {
+  const state = loadState();
+  state.settings = { ...state.settings, ...partial };
+  saveState(state);
+  return state;
 }
 
 export function setPlaybackSpeed(speed: number) {
