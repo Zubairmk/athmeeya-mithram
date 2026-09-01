@@ -76,7 +76,9 @@ export async function subscribeToPush(
   onProgress?.("സർവീസ് വർക്കർ പരിശോധിക്കുന്നു...");
   let registration = await navigator.serviceWorker.getRegistration();
   if (!registration) {
-    registration = await navigator.serviceWorker.register("/sw.js");
+    registration = await navigator.serviceWorker.register("/sw.js", {
+      updateViaCache: "none",
+    });
   }
 
   onProgress?.("സർവീസ് വർക്കർ ആക്റ്റിവേറ്റ് ആകുന്നു...");
