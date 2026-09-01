@@ -19,16 +19,70 @@ export function isPushSupported(): boolean {
   );
 }
 
+function waitForActivation(
+  registration: ServiceWorkerRegistration,
+  timeoutMs = 10000,
+): Promise<void> {
+  if (registration.active) return Promise.resolve();
+
+  const worker = registration.installing || registration.waiting;
+  if (!worker) {
+    // No worker to watch and none active yet — fall back to the standard
+    // ready promise, still under our own timeout rather than hanging.
+    return Promise.race([
+      navigator.serviceWorker.ready.then(() => undefined),
+      new Promise<void>((_, reject) =>
+        setTimeout(
+          () => reject(new Error("സർവീസ് വർക്കർ തയ്യാറായില്ല (timeout)")),
+          timeoutMs,
+        ),
+      ),
+    ]);
+  }
+
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      worker.removeEventListener("statechange", handleChange);
+      reject(new Error("സർവീസ് വർക്കർ ആക്റ്റിവേറ്റ് ആയില്ല (timeout)"));
+    }, timeoutMs);
+
+    function handleChange() {
+      if (worker!.state === "activated") {
+        clearTimeout(timer);
+        worker!.removeEventListener("statechange", handleChange);
+        resolve();
+      } else if (worker!.state === "redundant") {
+        clearTimeout(timer);
+        worker!.removeEventListener("statechange", handleChange);
+        reject(new Error("സർവീസ് വർക്കർ ആക്റ്റിവേറ്റ് ആകുന്നതിന് മുൻപ് നിലച്ചു"));
+      }
+    }
+
+    worker.addEventListener("statechange", handleChange);
+  });
+}
+
 export async function subscribeToPush(
   morningTime: string,
   eveningTime: string,
+  onProgress?: (step: string) => void,
 ): Promise<boolean> {
   if (!isPushSupported()) return false;
 
+  onProgress?.("അനുമതി അഭ്യർത്ഥിക്കുന്നു...");
   const permission = await Notification.requestPermission();
   if (permission !== "granted") return false;
 
-  const registration = await navigator.serviceWorker.ready;
+  onProgress?.("സർവീസ് വർക്കർ പരിശോധിക്കുന്നു...");
+  let registration = await navigator.serviceWorker.getRegistration();
+  if (!registration) {
+    registration = await navigator.serviceWorker.register("/sw.js");
+  }
+
+  onProgress?.("സർവീസ് വർക്കർ ആക്റ്റിവേറ്റ് ആകുന്നു...");
+  await waitForActivation(registration);
+
+  onProgress?.("സബ്സ്ക്രൈബ് ചെയ്യുന്നു...");
   let subscription = await registration.pushManager.getSubscription();
 
   if (!subscription) {
@@ -42,6 +96,7 @@ export async function subscribeToPush(
     });
   }
 
+  onProgress?.("സേവ് ചെയ്യുന്നു...");
   const json = subscription.toJSON();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -63,7 +118,9 @@ export async function subscribeToPush(
 export async function unsubscribeFromPush(): Promise<void> {
   if (!isPushSupported()) return;
 
-  const registration = await navigator.serviceWorker.ready;
+  const registration = await navigator.serviceWorker.getRegistration();
+  if (!registration) return;
+
   const subscription = await registration.pushManager.getSubscription();
   if (!subscription) return;
 

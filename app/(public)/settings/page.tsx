@@ -27,7 +27,7 @@ export default function SettingsPage() {
 
     try {
       if (!enabled) {
-        const ok = await subscribeToPush(morningTime, eveningTime);
+        const ok = await subscribeToPush(morningTime, eveningTime, setMessage);
         if (ok) {
           setEnabled(true);
           updateSettings({ notificationsEnabled: true });
@@ -57,7 +57,7 @@ export default function SettingsPage() {
 
     try {
       if (enabled) {
-        await subscribeToPush(morningTime, eveningTime);
+        await subscribeToPush(morningTime, eveningTime, setMessage);
       }
       setMessage("സേവ് ചെയ്തു");
     } catch (err) {
