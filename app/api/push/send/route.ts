@@ -50,56 +50,65 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  let sent = 0;
-  let removed = 0;
-  const errors: string[] = [];
+  // Build the due list first, then send everything in parallel — sending
+  // sequentially risked exceeding pg_net's HTTP timeout as the subscriber
+  // count grows (confirmed happening even with just 3 subscriptions,
+  // combined with Vercel cold-start latency).
+  const due: { sub: (typeof subscriptions)[number]; period: "morning" | "evening" }[] = [];
 
   for (const sub of subscriptions ?? []) {
-    let timezone = sub.timezone;
     let local: { hour: number; minute: number };
     try {
-      local = getLocalTime(timezone);
+      local = getLocalTime(sub.timezone);
     } catch {
-      timezone = "Asia/Riyadh";
-      local = getLocalTime(timezone);
+      local = getLocalTime("Asia/Riyadh");
     }
 
     const bucket = floorTo15(local.minute);
     const morning = parseTime(sub.reminder_morning_time);
     const evening = parseTime(sub.reminder_evening_time);
 
-    const periods: ("morning" | "evening")[] = [];
     if (local.hour === morning.hour && floorTo15(morning.minute) === bucket) {
-      periods.push("morning");
+      due.push({ sub, period: "morning" });
     }
     if (local.hour === evening.hour && floorTo15(evening.minute) === bucket) {
-      periods.push("evening");
+      due.push({ sub, period: "evening" });
+    }
+  }
+
+  const results = await Promise.allSettled(
+    due.map(({ sub, period }) =>
+      sendPushNotification(sub, { ...MESSAGES[period], url: "/" }),
+    ),
+  );
+
+  let sent = 0;
+  let removed = 0;
+  const errors: string[] = [];
+  const toRemove = new Set<string>();
+
+  results.forEach((result, i) => {
+    if (result.status === "fulfilled") {
+      sent++;
+      return;
     }
 
-    for (const period of periods) {
-      try {
-        await sendPushNotification(sub, {
-          ...MESSAGES[period],
-          url: "/",
-        });
-        sent++;
-      } catch (err: unknown) {
-        const statusCode =
-          typeof err === "object" && err !== null && "statusCode" in err
-            ? (err as { statusCode: number }).statusCode
-            : null;
+    const err = result.reason;
+    const statusCode =
+      typeof err === "object" && err !== null && "statusCode" in err
+        ? (err as { statusCode: number }).statusCode
+        : null;
 
-        if (statusCode === 404 || statusCode === 410) {
-          await supabase
-            .from("push_subscriptions")
-            .delete()
-            .eq("endpoint", sub.endpoint);
-          removed++;
-        } else {
-          errors.push(err instanceof Error ? err.message : String(err));
-        }
-      }
+    if (statusCode === 404 || statusCode === 410) {
+      toRemove.add(due[i].sub.endpoint);
+    } else {
+      errors.push(err instanceof Error ? err.message : String(err));
     }
+  });
+
+  if (toRemove.size > 0) {
+    await supabase.from("push_subscriptions").delete().in("endpoint", [...toRemove]);
+    removed = toRemove.size;
   }
 
   return NextResponse.json({ checked: subscriptions?.length ?? 0, sent, removed, errors });

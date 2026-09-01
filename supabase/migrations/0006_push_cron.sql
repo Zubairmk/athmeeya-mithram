@@ -22,7 +22,8 @@ select cron.schedule(
       'Authorization', 'Bearer <YOUR_CRON_SECRET>',
       'Content-Type', 'application/json'
     ),
-    body := '{}'::jsonb
+    body := '{}'::jsonb,
+    timeout_milliseconds := 20000
   );
   $$
 );
