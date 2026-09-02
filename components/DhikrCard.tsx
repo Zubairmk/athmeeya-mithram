@@ -12,12 +12,14 @@ export default function DhikrCard({
   onPlay: () => void;
 }) {
   return (
-    <div className="mb-6 rounded border border-gold/40 bg-shell p-5 last:mb-0">
+    <div className="mb-5 rounded-xl border border-line bg-surface p-4 last:mb-0">
       {hasAudio && (
         <button
           onClick={onPlay}
-          className={`mb-4 flex items-center gap-2 text-xs font-medium ${
-            isActive ? "text-gold" : "text-shell-muted"
+          className={`mb-3 inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors ${
+            isActive
+              ? "border-green-line bg-green-soft text-green-deep"
+              : "border-line text-ink-muted"
           }`}
         >
           <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor">
@@ -28,7 +30,8 @@ export default function DhikrCard({
       )}
 
       {sourcePdfUrl ? (
-        <div className="overflow-hidden rounded border border-gold/20">
+        <div className="relative overflow-hidden rounded-lg border border-line">
+          <div className="pointer-events-none absolute inset-1.5 rounded-md border border-gold/40" />
           <iframe
             src={sourcePdfUrl}
             title="Dhikr page"
@@ -38,17 +41,17 @@ export default function DhikrCard({
             href={sourcePdfUrl}
             target="_blank"
             rel="noreferrer"
-            className="block border-t border-gold/20 bg-shell px-3 py-2 text-center text-xs text-shell-muted hover:text-manuscript"
+            className="block border-t border-line bg-surface px-3 py-2 text-center text-xs text-ink-muted hover:text-green"
           >
             പുതിയ ടാബിൽ തുറക്കുക
           </a>
         </div>
       ) : (
-        <p className="text-sm text-shell-muted">ഉള്ളടക്കം ചേർത്തിട്ടില്ല.</p>
+        <p className="text-sm text-ink-muted">ഉള്ളടക്കം ചേർത്തിട്ടില്ല.</p>
       )}
 
       {malayalamNote && (
-        <p className="mt-4 font-malayalam text-sm leading-relaxed text-shell-muted">
+        <p className="mt-3 font-malayalam text-sm leading-relaxed text-ink-muted">
           {malayalamNote}
         </p>
       )}

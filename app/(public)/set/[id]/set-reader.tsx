@@ -29,7 +29,7 @@ export default function SetReader({
 
   return (
     <>
-      <div className="pb-24">
+      <div className={activeItem?.audio_url ? "pb-36" : "pb-24"}>
         {items.map((item) => (
           <DhikrCard
             key={item.id}

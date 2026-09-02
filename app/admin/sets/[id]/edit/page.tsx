@@ -29,9 +29,9 @@ export default async function EditSetPage({
   }
 
   return (
-    <main className="min-h-screen bg-shell">
+    <main className="min-h-screen bg-ink font-sans">
       <div className="mx-auto max-w-3xl p-8">
-        <Link href="/admin/sets" className="text-sm text-shell-muted">
+        <Link href="/admin/sets" className="text-sm text-white/60">
           &larr; All sets
         </Link>
 
@@ -39,13 +39,13 @@ export default async function EditSetPage({
           <Logo className="h-3.5 w-3.5" />
           ആത്മീയമിത്രം
         </p>
-        <h1 className="mb-6 mt-1 text-lg font-semibold text-shell-muted">
+        <h1 className="mb-6 mt-1 text-lg font-semibold text-white">
           {set.title_ml}
         </h1>
 
         <SetMetaForm set={set} categories={categories ?? []} />
 
-        <h2 className="mb-3 mt-10 text-sm font-semibold text-shell-muted">
+        <h2 className="mb-3 mt-10 text-sm font-semibold text-white/80">
           Items
         </h2>
         <ItemsList setId={id} initialItems={items ?? []} />

@@ -30,8 +30,8 @@ export default function PublishToggle({
       disabled={pending}
       className={`rounded-full border px-2.5 py-1 text-xs font-medium ${
         isPublished
-          ? "border-gold text-gold"
-          : "border-shell-muted/25 text-shell-muted"
+          ? "border-green/50 bg-green/15 text-[#6FCBA5]"
+          : "border-white/15 text-white/60"
       } disabled:opacity-50`}
     >
       {isPublished ? "Published" : "Draft"}

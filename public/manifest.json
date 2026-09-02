@@ -4,8 +4,8 @@
   "description": "Daily Islamic dhikr and azkar — Arabic recitations with Malayalam context, paired audio, and a habit-tracking streak.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#16332E",
-  "theme_color": "#16332E",
+  "background_color": "#FAFBF8",
+  "theme_color": "#0E5C43",
   "orientation": "portrait",
   "icons": [
     {

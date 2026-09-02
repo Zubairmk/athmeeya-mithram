@@ -111,9 +111,9 @@ export default function ItemEditor({
   }
 
   return (
-    <div className="space-y-3 rounded border border-shell-muted/20 p-4">
+    <div className="space-y-3 rounded border border-white/10 p-4">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-shell-muted">
+        <span className="text-xs font-medium text-white/60">
           Item #{index + 1}
         </span>
         <button
@@ -126,7 +126,7 @@ export default function ItemEditor({
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <label className="cursor-pointer rounded border border-shell-muted/25 px-3 py-1.5 text-xs font-medium text-shell-muted">
+        <label className="cursor-pointer rounded border border-white/15 px-3 py-1.5 text-xs font-medium text-white/70">
           {uploadingPdf ? "Uploading..." : "Upload PDF"}
           <input
             ref={pdfInputRef}
@@ -148,7 +148,7 @@ export default function ItemEditor({
           </a>
         )}
 
-        <label className="cursor-pointer rounded border border-shell-muted/25 px-3 py-1.5 text-xs font-medium text-shell-muted">
+        <label className="cursor-pointer rounded border border-white/15 px-3 py-1.5 text-xs font-medium text-white/70">
           {uploadingAudio ? "Uploading..." : "Upload audio"}
           <input
             ref={audioInputRef}
@@ -165,14 +165,14 @@ export default function ItemEditor({
       </div>
 
       <div className="space-y-1">
-        <label className="block text-xs font-medium text-shell-muted">
+        <label className="block text-xs font-medium text-white/60">
           Malayalam note (optional)
         </label>
         <textarea
           value={malayalamNote}
           onChange={(e) => setMalayalamNote(e.target.value)}
           rows={2}
-          className="w-full rounded border border-shell-muted/25 bg-transparent px-2 py-1.5 text-sm text-shell-muted outline-none focus:border-gold"
+          className="w-full rounded border border-white/15 bg-transparent px-2 py-1.5 text-sm text-white outline-none focus:border-gold"
         />
       </div>
 
@@ -182,12 +182,12 @@ export default function ItemEditor({
         <button
           onClick={handleSave}
           disabled={saving}
-          className="rounded border border-gold px-3 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-shell disabled:opacity-50"
+          className="rounded border border-gold px-3 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-ink disabled:opacity-50"
         >
           {saving ? "Saving..." : "Save item"}
         </button>
         {savedAt && !saving && (
-          <span className="text-xs text-shell-muted">Saved</span>
+          <span className="text-xs text-white/50">Saved</span>
         )}
       </div>
     </div>

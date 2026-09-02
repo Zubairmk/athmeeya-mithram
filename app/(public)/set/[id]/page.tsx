@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import Logo from "@/components/Logo";
+import Header from "@/components/Header";
 import SetReader from "./set-reader";
 import DailyMarkButton from "./daily-mark-button";
 
@@ -48,38 +47,27 @@ export default async function SetPage({
     .order("sort_order");
 
   return (
-    <div className="min-h-screen bg-manuscript text-ink">
-      <div className="mx-auto max-w-2xl px-6 pt-8">
-        <div className="rounded border border-gold/40 bg-shell p-5">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/"
-              aria-label="ആത്മീയമിത്രം"
-              className="flex items-center gap-1.5 text-gold transition-opacity hover:opacity-80"
-            >
-              <Logo className="h-4 w-4" />
-            </Link>
-            <Link
-              href={`/category/${set.categories.slug}`}
-              className="text-sm text-shell-muted transition-colors hover:text-manuscript"
-            >
-              &larr; {set.categories.name_ml}
-            </Link>
-          </div>
+    <div>
+      <Header
+        back={{
+          href: `/category/${set.categories.slug}`,
+          label: set.categories.name_ml,
+        }}
+      />
 
-          <h1 className="mt-5 font-malayalam text-xl font-semibold text-manuscript">
-            {set.title_ml}
-          </h1>
-          <div className="mt-2 h-px w-10 bg-gold" />
+      <div className="mx-auto max-w-2xl px-6 pb-8 pt-6">
+        <h1 className="font-malayalam text-lg font-bold text-ink">
+          {set.title_ml}
+        </h1>
+        <div className="mt-2 h-0.5 w-7 rounded bg-gold" />
 
-          {set.description_ml && (
-            <p className="mt-3 text-sm text-shell-muted">{set.description_ml}</p>
-          )}
+        {set.description_ml && (
+          <p className="mt-3 text-sm text-ink-muted">{set.description_ml}</p>
+        )}
 
-          {set.daily_type && <DailyMarkButton period={set.daily_type} />}
-        </div>
+        {set.daily_type && <DailyMarkButton period={set.daily_type} />}
 
-        <div className="mt-8">
+        <div className="mt-6">
           <SetReader items={items ?? []} setTitle={set.title_ml} />
         </div>
       </div>

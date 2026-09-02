@@ -23,7 +23,7 @@ export default async function AdminSetsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-shell">
+    <main className="min-h-screen bg-ink font-sans">
       <div className="mx-auto max-w-3xl p-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
@@ -31,11 +31,11 @@ export default async function AdminSetsPage() {
               <Logo className="h-3.5 w-3.5" />
               ആത്മീയമിത്രം
             </p>
-            <h1 className="mt-1 text-lg font-semibold text-shell-muted">
+            <h1 className="mt-1 text-lg font-semibold text-white">
               Dhikr Sets
             </h1>
           </div>
-          <Link href="/admin/dashboard" className="text-sm text-shell-muted">
+          <Link href="/admin/dashboard" className="text-sm text-white/60">
             &larr; Dashboard
           </Link>
         </div>
@@ -45,10 +45,10 @@ export default async function AdminSetsPage() {
         <div className="mt-8 space-y-8">
           {(categories ?? []).map((category) => (
             <section key={category.id}>
-              <h2 className="mb-2 text-sm font-semibold text-shell-muted">
+              <h2 className="mb-2 text-sm font-semibold text-white/80">
                 {category.name_ml}
               </h2>
-              <ul className="divide-y divide-shell-muted/15 border-y border-shell-muted/15">
+              <ul className="divide-y divide-white/10 border-y border-white/10">
                 {(setsByCategory.get(category.id) ?? []).map((set) => (
                   <li
                     key={set.id}
@@ -56,7 +56,7 @@ export default async function AdminSetsPage() {
                   >
                     <Link
                       href={`/admin/sets/${set.id}/edit`}
-                      className="text-sm font-medium text-shell-muted hover:text-manuscript"
+                      className="text-sm font-medium text-white/80 hover:text-white"
                     >
                       {set.title_ml}
                     </Link>
@@ -67,7 +67,7 @@ export default async function AdminSetsPage() {
                   </li>
                 ))}
                 {(setsByCategory.get(category.id) ?? []).length === 0 && (
-                  <li className="py-3 text-sm text-shell-muted">
+                  <li className="py-3 text-sm text-white/50">
                     No sets yet.
                   </li>
                 )}

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import BrandLink from "@/components/BrandLink";
+import Header from "@/components/Header";
 
 export async function generateMetadata({
   params,
@@ -46,30 +46,34 @@ export default async function CategoryPage({
     .order("sort_order");
 
   return (
-    <div className="mx-auto max-w-2xl px-6 pb-16 pt-8">
-      <BrandLink href="/" label="ആത്മീയമിത്രം" />
+    <div className="pb-28">
+      <Header back={{ href: "/", label: "തിരികെ" }} />
 
-      <h1 className="mt-4 font-malayalam text-xl font-semibold text-shell-muted">
-        {category.name_ml}
-      </h1>
+      <div className="mx-auto max-w-2xl px-6 pb-8 pt-6">
+        <h1 className="font-malayalam text-lg font-bold text-ink">
+          {category.name_ml}
+        </h1>
+        <div className="mt-2 h-0.5 w-7 rounded bg-gold" />
 
-      <ul className="mt-6 divide-y divide-shell-muted/15 border-y border-shell-muted/15">
-        {(sets ?? []).map((set) => (
-          <li key={set.id}>
-            <Link
-              href={`/set/${set.id}`}
-              className="block py-4 text-sm text-shell-muted transition-colors hover:text-manuscript"
-            >
-              {set.title_ml}
-            </Link>
-          </li>
-        ))}
-        {(sets ?? []).length === 0 && (
-          <li className="py-4 text-sm text-shell-muted">
-            ഇവിടെ ഇതുവരെ പ്രസിദ്ധീകരിച്ചിട്ടില്ല.
-          </li>
-        )}
-      </ul>
+        <ul className="mt-5 divide-y divide-line border-y border-line">
+          {(sets ?? []).map((set) => (
+            <li key={set.id}>
+              <Link
+                href={`/set/${set.id}`}
+                className="flex items-center justify-between py-3.5 text-[13.5px] font-medium text-ink transition-colors hover:text-green"
+              >
+                {set.title_ml}
+                <span className="text-green">&rsaquo;</span>
+              </Link>
+            </li>
+          ))}
+          {(sets ?? []).length === 0 && (
+            <li className="py-4 text-sm text-ink-muted">
+              ഇവിടെ ഇതുവരെ പ്രസിദ്ധീകരിച്ചിട്ടില്ല.
+            </li>
+          )}
+        </ul>
+      </div>
     </div>
   );
 }

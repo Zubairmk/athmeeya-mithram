@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { loadState, updateSettings } from "@/lib/streak";
 import { isPushSupported, subscribeToPush, unsubscribeFromPush } from "@/lib/push-client";
-import BrandLink from "@/components/BrandLink";
+import Header from "@/components/Header";
 
 export default function SettingsPage() {
   const [enabled, setEnabled] = useState(false);
@@ -70,76 +70,80 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-6 pb-16 pt-8">
-      <BrandLink href="/" label="ആത്മീയമിത്രം" />
+    <div className="pb-28">
+      <Header back={{ href: "/", label: "ഹോം" }} />
 
-      <h1 className="mt-4 font-malayalam text-xl font-semibold text-shell-muted">
-        ക്രമീകരണങ്ങൾ
-      </h1>
+      <div className="mx-auto max-w-2xl px-6 pb-8 pt-6">
+        <h1 className="font-malayalam text-lg font-bold text-ink">
+          ക്രമീകരണങ്ങൾ
+        </h1>
+        <div className="mt-2 h-0.5 w-7 rounded bg-gold" />
 
-      {!supported && (
-        <p className="mt-6 text-sm text-shell-muted">
-          അറിയിപ്പുകൾ ഈ ബ്രൗസറിൽ പിന്തുണയ്ക്കുന്നില്ല. iOS-ൽ, ഹോം സ്ക്രീനിലേക്ക്
-          ചേർത്ത ശേഷം മാത്രമേ അറിയിപ്പുകൾ പ്രവർത്തിക്കൂ.
-        </p>
-      )}
+        {!supported && (
+          <p className="mt-6 text-sm text-ink-muted">
+            അറിയിപ്പുകൾ ഈ ബ്രൗസറിൽ പിന്തുണയ്ക്കുന്നില്ല. iOS-ൽ, ഹോം സ്ക്രീനിലേക്ക്
+            ചേർത്ത ശേഷം മാത്രമേ അറിയിപ്പുകൾ പ്രവർത്തിക്കൂ.
+          </p>
+        )}
 
-      {supported && (
-        <div className="mt-6 space-y-6">
-          <div className="flex items-center justify-between rounded border border-shell-muted/25 px-4 py-3">
-            <span className="text-sm text-shell-muted">ദിനംപ്രതി അറിയിപ്പുകൾ</span>
-            <button
-              onClick={handleToggle}
-              disabled={pending}
-              className={`rounded-full px-3 py-1 text-xs font-medium ${
-                enabled
-                  ? "border border-gold text-gold"
-                  : "border border-shell-muted/40 text-shell-muted"
-              }`}
-            >
-              {enabled ? "ഓണാണ്" : "ഓഫാണ്"}
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <label htmlFor="morning" className="text-sm text-shell-muted">
-                രാവിലെ സമയം
-              </label>
-              <input
-                id="morning"
-                type="time"
-                value={morningTime}
-                onChange={(e) => setMorningTime(e.target.value)}
-                className="rounded border border-shell-muted/30 bg-transparent px-2 py-1 text-sm text-shell-muted"
-              />
+        {supported && (
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center justify-between rounded-xl border border-line px-4 py-3">
+              <span className="text-sm text-ink">ദിനംപ്രതി അറിയിപ്പുകൾ</span>
+              <button
+                onClick={handleToggle}
+                disabled={pending}
+                className={`rounded-full px-3 py-1 text-xs font-bold ${
+                  enabled
+                    ? "border border-green bg-green text-white"
+                    : "border border-line text-ink-muted"
+                }`}
+              >
+                {enabled ? "ഓണാണ്" : "ഓഫാണ്"}
+              </button>
             </div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="evening" className="text-sm text-shell-muted">
-                വൈകുന്നേരം സമയം
-              </label>
-              <input
-                id="evening"
-                type="time"
-                value={eveningTime}
-                onChange={(e) => setEveningTime(e.target.value)}
-                className="rounded border border-shell-muted/30 bg-transparent px-2 py-1 text-sm text-shell-muted"
-              />
+
+            <div className="rounded-xl border border-line px-4 py-3">
+              <div className="flex items-center justify-between">
+                <label htmlFor="morning" className="text-sm text-ink">
+                  രാവിലെ സമയം
+                </label>
+                <input
+                  id="morning"
+                  type="time"
+                  value={morningTime}
+                  onChange={(e) => setMorningTime(e.target.value)}
+                  className="rounded-lg border border-line bg-transparent px-2 py-1 text-sm text-ink"
+                />
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <label htmlFor="evening" className="text-sm text-ink">
+                  വൈകുന്നേരം സമയം
+                </label>
+                <input
+                  id="evening"
+                  type="time"
+                  value={eveningTime}
+                  onChange={(e) => setEveningTime(e.target.value)}
+                  className="rounded-lg border border-line bg-transparent px-2 py-1 text-sm text-ink"
+                />
+              </div>
             </div>
+
             <button
               onClick={handleTimeSave}
               disabled={pending}
-              className="w-full rounded border border-gold py-1.5 text-sm font-medium text-gold disabled:opacity-50"
+              className="w-full rounded-lg border border-green bg-green py-2 text-sm font-bold text-white disabled:opacity-50"
             >
               സേവ് ചെയ്യുക
             </button>
-          </div>
 
-          {message && (
-            <p className="text-center text-xs text-shell-muted">{message}</p>
-          )}
-        </div>
-      )}
+            {message && (
+              <p className="text-center text-xs text-ink-muted">{message}</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

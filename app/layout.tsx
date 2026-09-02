@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Amiri, Noto_Sans_Malayalam } from "next/font/google";
+import { Amiri, Noto_Sans_Malayalam, Outfit } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
@@ -12,6 +12,11 @@ const amiri = Amiri({
 const notoMalayalam = Noto_Sans_Malayalam({
   subsets: ["malayalam"],
   variable: "--font-malayalam",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -33,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16332E",
+  themeColor: "#0E5C43",
 };
 
 export default function RootLayout({
@@ -42,8 +47,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ml" className={`${amiri.variable} ${notoMalayalam.variable}`}>
-      <body className="font-malayalam">
+    <html
+      lang="ml"
+      className={`${amiri.variable} ${notoMalayalam.variable} ${outfit.variable}`}
+    >
+      <body className="bg-paper font-sans text-ink">
         {children}
         <ServiceWorkerRegister />
       </body>

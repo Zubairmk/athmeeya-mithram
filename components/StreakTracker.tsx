@@ -24,7 +24,12 @@ export default function StreakTracker({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="flex items-baseline gap-2">
+        <span className="text-2xl font-extrabold text-green-deep">{streak}</span>
+        <span className="text-xs text-ink-muted">ദിവസം സ്ട്രീക്ക്</span>
+      </div>
+
+      <div className="mt-3 grid grid-cols-2 gap-2.5">
         <Tile
           label="രാവിലെ"
           done={completion.morning}
@@ -36,13 +41,6 @@ export default function StreakTracker({
           href={eveningSet ? `/set/${eveningSet.id}` : null}
         />
       </div>
-      <Link
-        href="/streak"
-        className="mt-4 block text-center text-xs text-shell-muted"
-      >
-        <span className="font-semibold text-gold">{streak}</span> ദിവസം
-        സ്ട്രീക്ക്
-      </Link>
     </div>
   );
 }
@@ -58,12 +56,16 @@ function Tile({
 }) {
   const content = (
     <div
-      className={`flex flex-col items-center justify-center gap-2 rounded border py-6 ${
-        done ? "border-gold" : "border-shell-muted/25"
+      className={`flex flex-col items-center justify-center gap-1.5 rounded-xl border py-3.5 ${
+        done ? "border-gold bg-gold-soft" : "border-line"
       }`}
     >
-      <span className="text-sm font-medium text-shell-muted">{label}</span>
-      {done && <span className="text-gold">✓</span>}
+      <span className="text-[13px] font-semibold text-ink">{label}</span>
+      {done && (
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[9px] text-white">
+          ✓
+        </span>
+      )}
     </div>
   );
 

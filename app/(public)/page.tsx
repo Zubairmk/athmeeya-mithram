@@ -1,8 +1,14 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import CategoryNav from "@/components/CategoryNav";
 import StreakTracker from "@/components/StreakTracker";
 import Logo from "@/components/Logo";
+import { formatHijriDate } from "@/lib/hijri";
+
+const GREGORIAN_FORMAT = new Intl.DateTimeFormat("ml", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -26,49 +32,66 @@ export default async function HomePage() {
         .limit(1),
     ]);
 
+  const today = new Date();
+
   return (
-    <div className="mx-auto max-w-2xl px-6 pb-16">
-      <header className="relative overflow-hidden pb-8 pt-12 text-center">
-        <GeometricMotif />
-        <Link
-          href="/settings"
-          aria-label="ക്രമീകരണങ്ങൾ"
-          className="absolute right-0 top-4 text-shell-muted"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-          </svg>
-        </Link>
-        <Logo className="mx-auto h-7 w-7 text-gold" />
-        <h1 className="mt-3 font-malayalam text-2xl font-semibold text-manuscript">
-          ആത്മീയമിത്രം
-        </h1>
-      </header>
+    <div className="pb-28">
+      <div className="relative overflow-hidden bg-gradient-to-br from-green-deep via-green to-[#135C43] px-6 pb-8 pt-11">
+        <GeometricLattice />
+        <div className="relative mx-auto max-w-2xl">
+          <Logo className="mx-auto h-10 w-10 text-gold-light" />
+          <h1 className="mt-3 text-center font-malayalam text-xl font-extrabold text-white">
+            ആത്മീയമിത്രം
+          </h1>
+          <div className="mx-auto mt-3 h-px w-9 bg-gradient-to-r from-transparent via-gold-light to-transparent" />
 
-      <StreakTracker
-        morningSet={morningSets?.[0] ?? null}
-        eveningSet={eveningSets?.[0] ?? null}
-      />
+          <div className="mt-5 flex justify-center gap-2">
+            <DatePill label="ഹിജ്‌റ" value={formatHijriDate(today)} />
+            <DatePill label="ഗ്രിഗോറിയൻ" value={GREGORIAN_FORMAT.format(today)} />
+          </div>
 
-      <div className="mt-10">
+          <div className="mt-5 rounded-2xl bg-white p-4 shadow-lg shadow-black/20">
+            <StreakTracker
+              morningSet={morningSets?.[0] ?? null}
+              eveningSet={eveningSets?.[0] ?? null}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-2xl px-6 pt-6">
+        <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-ink-faint">
+          വിഭാഗങ്ങൾ
+        </p>
         <CategoryNav categories={categories ?? []} />
       </div>
     </div>
   );
 }
 
-function GeometricMotif() {
+function DatePill({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-gold-light/25 bg-white/10 px-3 py-1.5 text-center">
+      <p className="text-[8.5px] font-bold uppercase tracking-wide text-gold-light">
+        {label}
+      </p>
+      <p className="mt-0.5 whitespace-nowrap text-[11px] font-semibold text-white">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function GeometricLattice() {
   return (
     <svg
       aria-hidden
-      className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full w-full opacity-[0.07]"
-      viewBox="0 0 400 200"
+      className="pointer-events-none absolute inset-x-0 top-0 h-full w-full opacity-[0.14]"
+      viewBox="0 0 400 220"
       preserveAspectRatio="xMidYMid slice"
     >
-      <g stroke="#C79A46" strokeWidth="1" fill="none">
-        <path d="M0 100 L50 50 L100 100 L150 50 L200 100 L250 50 L300 100 L350 50 L400 100" />
-        <path d="M0 100 L50 150 L100 100 L150 150 L200 100 L250 150 L300 100 L350 150 L400 100" />
+      <g stroke="#E7C77E" strokeWidth="0.7" fill="none">
+        <path d="M0 20 L25 45 L0 70 M50 20 L75 45 L50 70 M100 20 L125 45 L100 70 M150 20 L175 45 L150 70 M200 20 L225 45 L200 70 M250 20 L275 45 L250 70 M300 20 L325 45 L300 70 M350 20 L375 45 L350 70 M400 20 L425 45 L400 70" />
       </g>
     </svg>
   );

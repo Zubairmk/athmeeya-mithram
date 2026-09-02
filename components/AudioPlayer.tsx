@@ -54,7 +54,7 @@ export default function AudioPlayer({
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 border-t border-gold/30 bg-shell/95 px-4 py-2.5 backdrop-blur">
+    <div className="fixed inset-x-0 bottom-[60px] z-20 border-t border-line bg-surface/95 px-4 py-2.5 backdrop-blur">
       <audio
         ref={audioRef}
         src={src}
@@ -74,7 +74,7 @@ export default function AudioPlayer({
         <button
           onClick={togglePlay}
           aria-label={isPlaying ? "Pause" : "Play"}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold text-gold"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-green text-green"
         >
           {isPlaying ? (
             <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
@@ -89,7 +89,7 @@ export default function AudioPlayer({
         </button>
 
         <div className="min-w-0 flex-1">
-          <p className="truncate text-xs text-shell-muted">{title}</p>
+          <p className="truncate text-xs text-ink-muted">{title}</p>
           <input
             type="range"
             min={0}
@@ -97,14 +97,14 @@ export default function AudioPlayer({
             step={0.001}
             value={progress}
             onChange={handleSeek}
-            className="w-full accent-gold"
+            className="w-full accent-green"
           />
         </div>
 
         <select
           value={speed}
           onChange={(e) => handleSpeedChange(Number(e.target.value))}
-          className="shrink-0 rounded border border-shell-muted/30 bg-transparent px-1 py-1 text-xs text-shell-muted"
+          className="shrink-0 rounded border border-line bg-transparent px-1 py-1 text-xs text-ink-muted"
         >
           {SPEEDS.map((s) => (
             <option key={s} value={s} className="text-ink">

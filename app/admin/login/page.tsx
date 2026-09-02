@@ -35,17 +35,17 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-shell p-8">
+    <main className="flex min-h-screen items-center justify-center bg-ink p-8 font-sans">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-5 rounded border border-shell-muted/20 p-8"
+        className="w-full max-w-sm space-y-5 rounded border border-white/10 p-8"
       >
         <div>
           <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-gold">
             <Logo className="h-3.5 w-3.5" />
             ആത്മീയമിത്രം
           </p>
-          <h1 className="mt-1 text-lg font-semibold text-shell-muted">
+          <h1 className="mt-1 text-lg font-semibold text-white">
             Admin
           </h1>
         </div>
@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
         <div className="space-y-1">
           <label
             htmlFor="email"
-            className="block text-xs font-medium text-shell-muted"
+            className="block text-xs font-medium text-white/60"
           >
             Email
           </label>
@@ -63,14 +63,14 @@ export default function AdminLoginPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded border border-shell-muted/25 bg-transparent px-3 py-2 text-sm text-shell-muted outline-none focus:border-gold"
+            className="w-full rounded border border-white/15 bg-transparent px-3 py-2 text-sm text-white outline-none focus:border-gold"
           />
         </div>
 
         <div className="space-y-1">
           <label
             htmlFor="password"
-            className="block text-xs font-medium text-shell-muted"
+            className="block text-xs font-medium text-white/60"
           >
             Password
           </label>
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded border border-shell-muted/25 bg-transparent px-3 py-2 text-sm text-shell-muted outline-none focus:border-gold"
+            className="w-full rounded border border-white/15 bg-transparent px-3 py-2 text-sm text-white outline-none focus:border-gold"
           />
         </div>
 
@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded border border-gold py-2 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-shell disabled:opacity-50"
+          className="w-full rounded border border-gold py-2 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-ink disabled:opacity-50"
         >
           {loading ? "Signing in..." : "Sign in"}
         </button>

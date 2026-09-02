@@ -15,8 +15,8 @@ type Set = {
 };
 
 const inputClass =
-  "w-full rounded border border-shell-muted/25 bg-transparent px-2 py-1.5 text-sm text-shell-muted outline-none placeholder:text-shell-muted/30 focus:border-gold";
-const labelClass = "block text-xs font-medium text-shell-muted";
+  "w-full rounded border border-white/15 bg-transparent px-2 py-1.5 text-sm text-white outline-none placeholder:text-white/25 focus:border-gold";
+const labelClass = "block text-xs font-medium text-white/60";
 
 export default function SetMetaForm({
   set,
@@ -66,7 +66,7 @@ export default function SetMetaForm({
   return (
     <form
       onSubmit={handleSave}
-      className="space-y-4 rounded border border-shell-muted/20 p-4"
+      className="space-y-4 rounded border border-white/10 p-4"
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1">
@@ -115,7 +115,7 @@ export default function SetMetaForm({
           </select>
         </div>
 
-        <label className="flex items-center gap-2 text-sm text-shell-muted">
+        <label className="flex items-center gap-2 text-sm text-white/80">
           <input
             type="checkbox"
             checked={isPublished}
@@ -147,13 +147,13 @@ export default function SetMetaForm({
         <button
           type="submit"
           disabled={saving}
-          className="rounded border border-gold px-3 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-shell disabled:opacity-50"
+          className="rounded border border-gold px-3 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold hover:text-ink disabled:opacity-50"
         >
           {saving ? "Saving..." : "Save"}
         </button>
 
         {savedAt && !saving && (
-          <span className="text-xs text-shell-muted">Saved</span>
+          <span className="text-xs text-white/50">Saved</span>
         )}
 
         <button
