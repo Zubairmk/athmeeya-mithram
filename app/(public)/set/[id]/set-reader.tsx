@@ -30,10 +30,9 @@ export default function SetReader({
   return (
     <>
       <div className="pb-24">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <DhikrCard
             key={item.id}
-            index={index}
             sourcePdfUrl={item.source_pdf_url}
             malayalamNote={item.malayalam_note}
             hasAudio={!!item.audio_url}
