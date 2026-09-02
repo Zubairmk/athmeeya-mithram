@@ -58,7 +58,7 @@ export default function ItemsList({
       ))}
 
       {items.length === 0 && (
-        <p className="text-sm text-shell-muted/40">No items yet.</p>
+        <p className="text-sm text-shell-muted">No items yet.</p>
       )}
 
       <button

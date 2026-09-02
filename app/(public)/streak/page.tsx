@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadState, getRecentDays, type StreakState } from "@/lib/streak";
+import BrandLink from "@/components/BrandLink";
 
 const WEEKDAY_FORMAT = new Intl.DateTimeFormat("ml", { weekday: "short" });
 const DATE_FORMAT = new Intl.DateTimeFormat("ml", { day: "numeric", month: "short" });
@@ -18,9 +18,7 @@ export default function StreakPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 pb-16 pt-8">
-      <Link href="/" className="text-sm text-shell-muted/70">
-        &larr; ആത്മീയമിത്രം
-      </Link>
+      <BrandLink href="/" label="ആത്മീയമിത്രം" />
 
       <h1 className="mt-4 font-malayalam text-xl font-semibold text-shell-muted">
         എന്റെ പുരോഗതി
@@ -52,7 +50,7 @@ export default function StreakPage() {
           >
             <span className="text-shell-muted">
               {DATE_FORMAT.format(new Date(day.date))}{" "}
-              <span className="text-shell-muted/50">
+              <span className="text-xs">
                 ({WEEKDAY_FORMAT.format(new Date(day.date))})
               </span>
             </span>
@@ -73,7 +71,7 @@ function Dot({ label, done }: { label: string; done: boolean }) {
       <span
         className={`h-2 w-2 rounded-full ${done ? "bg-gold" : "bg-shell-muted/25"}`}
       />
-      <span className={done ? "text-gold" : "text-shell-muted/50"}>
+      <span className={done ? "text-gold" : "text-shell-muted"}>
         {label}
       </span>
     </span>

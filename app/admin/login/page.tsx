@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import Logo from "@/components/Logo";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -40,7 +41,8 @@ export default function AdminLoginPage() {
         className="w-full max-w-sm space-y-5 rounded border border-shell-muted/20 p-8"
       >
         <div>
-          <p className="text-xs uppercase tracking-wide text-gold">
+          <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-gold">
+            <Logo className="h-3.5 w-3.5" />
             ആത്മീയമിത്രം
           </p>
           <h1 className="mt-1 text-lg font-semibold text-shell-muted">
@@ -51,7 +53,7 @@ export default function AdminLoginPage() {
         <div className="space-y-1">
           <label
             htmlFor="email"
-            className="block text-xs font-medium text-shell-muted/70"
+            className="block text-xs font-medium text-shell-muted"
           >
             Email
           </label>
@@ -68,7 +70,7 @@ export default function AdminLoginPage() {
         <div className="space-y-1">
           <label
             htmlFor="password"
-            className="block text-xs font-medium text-shell-muted/70"
+            className="block text-xs font-medium text-shell-muted"
           >
             Password
           </label>

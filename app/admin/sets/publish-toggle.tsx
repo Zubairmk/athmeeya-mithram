@@ -31,7 +31,7 @@ export default function PublishToggle({
       className={`rounded-full border px-2.5 py-1 text-xs font-medium ${
         isPublished
           ? "border-gold text-gold"
-          : "border-shell-muted/25 text-shell-muted/60"
+          : "border-shell-muted/25 text-shell-muted"
       } disabled:opacity-50`}
     >
       {isPublished ? "Published" : "Draft"}

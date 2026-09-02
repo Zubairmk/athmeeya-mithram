@@ -25,7 +25,7 @@ export default function DailyMarkButton({ period }: { period: DailyPeriod }) {
       onClick={handleToggle}
       className={`mt-4 rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
         done
-          ? "border-gold bg-gold/10 text-gold"
+          ? "border-gold bg-gold/10 text-gold-ink"
           : "border-ink/25 text-ink-muted"
       }`}
     >

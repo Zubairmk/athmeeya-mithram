@@ -7,7 +7,7 @@ export default function NotFound() {
       <h1 className="mt-4 font-malayalam text-lg font-semibold text-shell-muted">
         ഈ പേജ് കണ്ടെത്താനായില്ല
       </h1>
-      <p className="mt-2 text-sm text-shell-muted/60">
+      <p className="mt-2 text-sm text-shell-muted">
         തിരയുന്ന താൾ ഇവിടെയില്ല, നീക്കം ചെയ്തിരിക്കാം.
       </p>
       <Link

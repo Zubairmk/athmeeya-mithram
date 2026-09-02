@@ -46,7 +46,7 @@ export default function NewSetForm({ categories }: { categories: Category[] }) {
       className="flex flex-wrap items-end gap-3 rounded border border-shell-muted/20 p-4"
     >
       <div className="flex-1 space-y-1">
-        <label className="block text-xs font-medium text-shell-muted/60">
+        <label className="block text-xs font-medium text-shell-muted">
           Category
         </label>
         <select
@@ -63,7 +63,7 @@ export default function NewSetForm({ categories }: { categories: Category[] }) {
       </div>
 
       <div className="flex-[2] space-y-1">
-        <label className="block text-xs font-medium text-shell-muted/60">
+        <label className="block text-xs font-medium text-shell-muted">
           Set title (Malayalam)
         </label>
         <input

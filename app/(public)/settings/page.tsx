@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadState, updateSettings } from "@/lib/streak";
 import { isPushSupported, subscribeToPush, unsubscribeFromPush } from "@/lib/push-client";
+import BrandLink from "@/components/BrandLink";
 
 export default function SettingsPage() {
   const [enabled, setEnabled] = useState(false);
@@ -71,16 +71,14 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 pb-16 pt-8">
-      <Link href="/" className="text-sm text-shell-muted/70">
-        &larr; ആത്മീയമിത്രം
-      </Link>
+      <BrandLink href="/" label="ആത്മീയമിത്രം" />
 
       <h1 className="mt-4 font-malayalam text-xl font-semibold text-shell-muted">
         ക്രമീകരണങ്ങൾ
       </h1>
 
       {!supported && (
-        <p className="mt-6 text-sm text-shell-muted/70">
+        <p className="mt-6 text-sm text-shell-muted">
           അറിയിപ്പുകൾ ഈ ബ്രൗസറിൽ പിന്തുണയ്ക്കുന്നില്ല. iOS-ൽ, ഹോം സ്ക്രീനിലേക്ക്
           ചേർത്ത ശേഷം മാത്രമേ അറിയിപ്പുകൾ പ്രവർത്തിക്കൂ.
         </p>
@@ -138,7 +136,7 @@ export default function SettingsPage() {
           </div>
 
           {message && (
-            <p className="text-center text-xs text-shell-muted/70">{message}</p>
+            <p className="text-center text-xs text-shell-muted">{message}</p>
           )}
         </div>
       )}

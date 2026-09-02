@@ -113,7 +113,7 @@ export default function ItemEditor({
   return (
     <div className="space-y-3 rounded border border-shell-muted/20 p-4">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-shell-muted/50">
+        <span className="text-xs font-medium text-shell-muted">
           Item #{index + 1}
         </span>
         <button
@@ -165,7 +165,7 @@ export default function ItemEditor({
       </div>
 
       <div className="space-y-1">
-        <label className="block text-xs font-medium text-shell-muted/60">
+        <label className="block text-xs font-medium text-shell-muted">
           Malayalam note (optional)
         </label>
         <textarea
@@ -187,7 +187,7 @@ export default function ItemEditor({
           {saving ? "Saving..." : "Save item"}
         </button>
         {savedAt && !saving && (
-          <span className="text-xs text-shell-muted/50">Saved</span>
+          <span className="text-xs text-shell-muted">Saved</span>
         )}
       </div>
     </div>

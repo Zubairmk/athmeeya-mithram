@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import CategoryNav from "@/components/CategoryNav";
 import StreakTracker from "@/components/StreakTracker";
+import Logo from "@/components/Logo";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -32,14 +33,15 @@ export default async function HomePage() {
         <Link
           href="/settings"
           aria-label="ക്രമീകരണങ്ങൾ"
-          className="absolute right-0 top-4 text-shell-muted/60"
+          className="absolute right-0 top-4 text-shell-muted"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <circle cx="12" cy="12" r="3" />
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
           </svg>
         </Link>
-        <h1 className="font-malayalam text-2xl font-semibold text-manuscript">
+        <Logo className="mx-auto h-7 w-7 text-gold" />
+        <h1 className="mt-3 font-malayalam text-2xl font-semibold text-manuscript">
           ആത്മീയമിത്രം
         </h1>
       </header>

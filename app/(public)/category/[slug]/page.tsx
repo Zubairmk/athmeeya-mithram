@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+import BrandLink from "@/components/BrandLink";
 
 export async function generateMetadata({
   params,
@@ -46,9 +47,7 @@ export default async function CategoryPage({
 
   return (
     <div className="mx-auto max-w-2xl px-6 pb-16 pt-8">
-      <Link href="/" className="text-sm text-shell-muted/70">
-        &larr; ആത്മീയമിത്രം
-      </Link>
+      <BrandLink href="/" label="ആത്മീയമിത്രം" />
 
       <h1 className="mt-4 font-malayalam text-xl font-semibold text-shell-muted">
         {category.name_ml}
@@ -66,7 +65,7 @@ export default async function CategoryPage({
           </li>
         ))}
         {(sets ?? []).length === 0 && (
-          <li className="py-4 text-sm text-shell-muted/50">
+          <li className="py-4 text-sm text-shell-muted">
             ഇവിടെ ഇതുവരെ പ്രസിദ്ധീകരിച്ചിട്ടില്ല.
           </li>
         )}

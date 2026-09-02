@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import Logo from "@/components/Logo";
 import SetMetaForm from "./set-meta-form";
 import ItemsList from "./items-list";
 
@@ -30,17 +31,21 @@ export default async function EditSetPage({
   return (
     <main className="min-h-screen bg-shell">
       <div className="mx-auto max-w-3xl p-8">
-        <Link href="/admin/sets" className="text-sm text-shell-muted/60">
+        <Link href="/admin/sets" className="text-sm text-shell-muted">
           &larr; All sets
         </Link>
 
-        <h1 className="mb-6 mt-2 text-lg font-semibold text-shell-muted">
+        <p className="mt-4 flex items-center gap-1.5 text-xs uppercase tracking-wide text-gold">
+          <Logo className="h-3.5 w-3.5" />
+          ആത്മീയമിത്രം
+        </p>
+        <h1 className="mb-6 mt-1 text-lg font-semibold text-shell-muted">
           {set.title_ml}
         </h1>
 
         <SetMetaForm set={set} categories={categories ?? []} />
 
-        <h2 className="mb-3 mt-10 text-sm font-semibold text-shell-muted/70">
+        <h2 className="mb-3 mt-10 text-sm font-semibold text-shell-muted">
           Items
         </h2>
         <ItemsList setId={id} initialItems={items ?? []} />

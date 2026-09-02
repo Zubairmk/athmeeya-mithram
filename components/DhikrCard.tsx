@@ -1,10 +1,12 @@
 export default function DhikrCard({
+  index,
   sourcePdfUrl,
   malayalamNote,
   hasAudio,
   isActive,
   onPlay,
 }: {
+  index: number;
   sourcePdfUrl: string | null;
   malayalamNote: string | null;
   hasAudio: boolean;
@@ -12,20 +14,26 @@ export default function DhikrCard({
   onPlay: () => void;
 }) {
   return (
-    <div className="border-b border-ink/15 py-8 last:border-none">
-      {hasAudio && (
-        <button
-          onClick={onPlay}
-          className={`mb-4 flex items-center gap-2 text-xs font-medium ${
-            isActive ? "text-gold" : "text-ink-muted"
-          }`}
-        >
-          <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor">
-            <polygon points="0,0 10,5 0,10" />
-          </svg>
-          {isActive ? "കേട്ടുകൊണ്ടിരിക്കുന്നു" : "കേൾക്കുക"}
-        </button>
-      )}
+    <div className="mb-6 rounded border border-ink/15 bg-ink/[0.02] p-5 last:mb-0">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <span className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+          ഇനം {index + 1}
+        </span>
+
+        {hasAudio && (
+          <button
+            onClick={onPlay}
+            className={`flex items-center gap-2 text-xs font-medium ${
+              isActive ? "text-gold-ink" : "text-ink-muted"
+            }`}
+          >
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor">
+              <polygon points="0,0 10,5 0,10" />
+            </svg>
+            {isActive ? "കേട്ടുകൊണ്ടിരിക്കുന്നു" : "കേൾക്കുക"}
+          </button>
+        )}
+      </div>
 
       {sourcePdfUrl ? (
         <div className="overflow-hidden rounded border border-ink/15">

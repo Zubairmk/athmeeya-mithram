@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import Logo from "@/components/Logo";
 import NewSetForm from "./new-set-form";
 import PublishToggle from "./publish-toggle";
 
@@ -26,14 +27,15 @@ export default async function AdminSetsPage() {
       <div className="mx-auto max-w-3xl p-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <p className="text-xs uppercase tracking-wide text-gold">
+            <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-gold">
+              <Logo className="h-3.5 w-3.5" />
               ആത്മീയമിത്രം
             </p>
             <h1 className="mt-1 text-lg font-semibold text-shell-muted">
               Dhikr Sets
             </h1>
           </div>
-          <Link href="/admin/dashboard" className="text-sm text-shell-muted/60">
+          <Link href="/admin/dashboard" className="text-sm text-shell-muted">
             &larr; Dashboard
           </Link>
         </div>
@@ -43,7 +45,7 @@ export default async function AdminSetsPage() {
         <div className="mt-8 space-y-8">
           {(categories ?? []).map((category) => (
             <section key={category.id}>
-              <h2 className="mb-2 text-sm font-semibold text-shell-muted/70">
+              <h2 className="mb-2 text-sm font-semibold text-shell-muted">
                 {category.name_ml}
               </h2>
               <ul className="divide-y divide-shell-muted/15 border-y border-shell-muted/15">
@@ -65,7 +67,7 @@ export default async function AdminSetsPage() {
                   </li>
                 ))}
                 {(setsByCategory.get(category.id) ?? []).length === 0 && (
-                  <li className="py-3 text-sm text-shell-muted/40">
+                  <li className="py-3 text-sm text-shell-muted">
                     No sets yet.
                   </li>
                 )}

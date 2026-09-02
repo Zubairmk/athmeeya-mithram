@@ -16,7 +16,7 @@ type Set = {
 
 const inputClass =
   "w-full rounded border border-shell-muted/25 bg-transparent px-2 py-1.5 text-sm text-shell-muted outline-none placeholder:text-shell-muted/30 focus:border-gold";
-const labelClass = "block text-xs font-medium text-shell-muted/60";
+const labelClass = "block text-xs font-medium text-shell-muted";
 
 export default function SetMetaForm({
   set,
@@ -153,7 +153,7 @@ export default function SetMetaForm({
         </button>
 
         {savedAt && !saving && (
-          <span className="text-xs text-shell-muted/50">Saved</span>
+          <span className="text-xs text-shell-muted">Saved</span>
         )}
 
         <button
